@@ -1,0 +1,1968 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Velraq V2 — GFS Global Freight Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f0e8;
+    --sidebar:#ede8df;
+    --card:#ffffff;
+    --border:#ddd6c8;
+    --rust:#c0392b;
+    --rust-bg:#fff0ee;
+    --rust-border:#e8b4ae;
+    --ink:#1c1410;
+    --ink-2:#78716c;
+    --ink-3:#a89880;
+    --green:#166534;
+    --green-bg:#f0fdf4;
+    --green-border:#86efac;
+    --amber:#92400e;
+    --amber-bg:#fffbeb;
+    --amber-border:#fcd34d;
+    --narr-bg:#fdf6ec;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'DM Sans',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    font-size:14px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'DM Mono',monospace}
+  .syne{font-family:'Syne',sans-serif}
+
+  /* HEADER */
+  header{
+    position:fixed;top:0;left:0;right:0;height:52px;
+    background:var(--card);border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 22px;z-index:100;
+  }
+  .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.5px;color:var(--ink)}
+  .logo .r{color:var(--rust)}
+  .h-left{display:flex;align-items:center;gap:12px}
+  .h-right{display:flex;align-items:center;gap:14px}
+  .badge-dark{font-family:'DM Mono',monospace;background:var(--ink);color:#fff;font-size:10px;padding:3px 7px;border-radius:3px;letter-spacing:0.4px}
+  .h-customer{font-size:12px;color:var(--ink-2)}
+  .avatar{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+  /* SIDEBAR */
+  aside{
+    position:fixed;top:52px;bottom:0;left:0;width:220px;
+    background:var(--sidebar);border-right:1px solid var(--border);
+    overflow-y:auto;padding:18px 0;
+  }
+  .side-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;color:var(--ink-3);padding:0 18px 8px;text-transform:uppercase}
+  .nav-item{
+    display:flex;align-items:center;gap:10px;
+    padding:8px 18px;cursor:pointer;font-size:13px;color:var(--ink-2);
+    border-left:3px solid transparent;
+    position:relative;
+  }
+  .nav-item:hover{background:rgba(0,0,0,0.02);color:var(--ink)}
+  .nav-item.active{background:var(--card);border-left-color:var(--rust);color:var(--ink);font-weight:500}
+  .step-dot{
+    width:18px;height:18px;border-radius:50%;
+    background:#d1c9b8;color:#fff;font-size:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'DM Mono',monospace;font-weight:500;flex-shrink:0;
+  }
+  .nav-item.active .step-dot{background:var(--rust)}
+  .nav-item.done .step-dot{background:#16a34a}
+  .nav-icon{width:16px;height:16px;flex-shrink:0;color:currentColor}
+  .nav-badge{
+    margin-left:auto;background:var(--rust);color:#fff;
+    font-family:'DM Mono',monospace;font-size:9px;padding:1px 6px;border-radius:8px;
+  }
+  .side-divider{height:1px;background:var(--border);margin:16px 18px}
+  .feed-mini{
+    margin:0 12px 6px;padding:8px 10px;border-radius:6px;
+    background:transparent;cursor:pointer;font-size:11px;
+  }
+  .feed-mini:hover{background:rgba(0,0,0,0.03)}
+  .feed-mini .feed-name{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink);display:flex;align-items:center;gap:6px}
+  .feed-mini .feed-sub{font-size:10px;color:var(--ink-3);margin-top:2px;font-family:'DM Mono',monospace}
+  .feed-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+  .feed-dot.green{background:#16a34a}
+  .feed-dot.amber{background:#d97706}
+  .feed-dot.rust{background:var(--rust)}
+  .feed-mini .q-tag{display:inline-block;margin-top:3px;background:var(--rust);color:#fff;font-family:'DM Mono',monospace;font-size:9px;padding:1px 5px;border-radius:3px}
+  .pilot-note{padding:0 18px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-3);line-height:1.5}
+
+  /* MAIN */
+  main{
+    position:fixed;top:52px;left:220px;right:0;bottom:0;
+    overflow-y:auto;padding:28px 36px 80px;
+  }
+  .container{max-width:1100px;margin:0 auto}
+  .step-section{display:none}
+  .step-section.active{display:block}
+
+  /* Common */
+  h1.page-title{font-family:'Syne',sans-serif;font-weight:700;font-size:24px;color:var(--ink);letter-spacing:-0.3px;margin-bottom:6px;line-height:1.25}
+  .page-sub{color:var(--ink-2);font-size:14px;margin-bottom:22px}
+  .progress-chip{
+    display:inline-block;font-family:'DM Mono',monospace;font-size:10px;
+    background:#f3f0ec;border:1px solid var(--border);
+    padding:3px 9px;border-radius:12px;color:var(--ink-2);margin-bottom:14px;
+    letter-spacing:0.3px;
+  }
+  .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px}
+  .card + .card{margin-top:16px}
+
+  /* Narration */
+  .narration{
+    background:var(--narr-bg);border-left:3px solid var(--rust);
+    border-radius:0 6px 6px 0;padding:12px 16px;margin-bottom:20px;
+    display:flex;align-items:center;gap:16px;
+  }
+  .narration-text{flex:1}
+  .narration-l1,.narration-l2{font-size:13px;color:var(--ink);line-height:1.55}
+  .narration-l2{color:var(--ink-2);margin-top:2px}
+
+  /* Buttons */
+  .btn{
+    font-family:'DM Sans',sans-serif;font-weight:500;font-size:13px;
+    padding:8px 14px;border-radius:6px;border:1px solid var(--border);
+    background:transparent;color:var(--ink);cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;transition:background .15s;
+  }
+  .btn:hover{background:rgba(0,0,0,0.03)}
+  .btn-primary{background:var(--rust);color:#fff;border-color:var(--rust)}
+  .btn-primary:hover{background:#a3322a}
+  .btn-primary:disabled{background:#d8b8b4;border-color:#d8b8b4;cursor:not-allowed}
+  .btn-small{font-size:12px;padding:6px 12px}
+  .btn-large{font-size:15px;padding:14px 28px;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.2px}
+
+  /* Badges */
+  .badge{
+    font-family:'DM Mono',monospace;font-size:10px;
+    padding:3px 9px;border-radius:3px;letter-spacing:0.4px;
+    display:inline-block;
+  }
+  .badge-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+  .badge-amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+  .badge-rust{background:var(--rust-bg);color:var(--rust);border:1px solid var(--rust-border)}
+  .badge-rust-solid{background:var(--rust);color:#fff}
+  .badge-neutral{background:#f3f0ec;color:var(--ink-2);border:1px solid var(--border)}
+
+  /* Step 0 */
+  .opening-banner{
+    background:var(--rust-bg);border-left:3px solid var(--rust);
+    border-radius:0 6px 6px 0;padding:14px 18px;margin-bottom:24px;
+    font-size:13px;color:var(--ink-2);line-height:1.6;
+    display:flex;align-items:center;gap:16px;
+  }
+  .opening-banner .quote{flex:1;font-style:italic}
+  .timeline-row{display:flex;gap:14px;align-items:flex-start;padding:14px 0}
+  .timeline-row + .timeline-row{border-top:1px solid var(--border)}
+  .timeline-icon{
+    width:32px;height:32px;border-radius:50%;background:var(--rust-bg);color:var(--rust);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .timeline-icon svg{width:18px;height:18px}
+  .timeline-title{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:4px}
+  .timeline-body{font-size:13px;color:var(--ink-2);line-height:1.6}
+  .four-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .root-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px}
+  .root-card.highlight{background:var(--rust-bg);border-color:var(--rust-border)}
+  .root-num{font-family:'DM Sans',sans-serif;font-weight:600;font-size:32px;color:var(--ink-3);letter-spacing:-0.5px;font-variant-numeric:tabular-nums;line-height:1}
+  .root-card.highlight .root-num{color:var(--rust)}
+  .root-title{font-weight:600;font-size:14px;color:var(--ink);margin:10px 0 6px}
+  .root-body{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+  .source-badge{display:inline-block;margin-top:10px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-3);background:#f3f0ec;border:1px solid var(--border);padding:2px 7px;border-radius:3px}
+  .three-monday{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:6px}
+  .monday-card{background:var(--rust-bg);border:1px solid var(--rust-border);border-radius:8px;padding:16px}
+  .monday-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--rust);letter-spacing:0.6px;margin-bottom:10px}
+  .monday-body{font-size:12.5px;color:var(--ink);line-height:1.55}
+  .what-velraq{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .wv-card{background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;padding:18px}
+  .wv-icon{width:32px;height:32px;border-radius:50%;background:#dcfce7;color:var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+  .wv-icon svg{width:18px;height:18px}
+  .wv-title{font-weight:600;font-size:14px;color:var(--green);margin-bottom:6px}
+  .wv-body{font-size:12.5px;color:var(--ink);line-height:1.55}
+  .flow-diagram{padding:18px}
+  .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .compare-side{padding:14px;border-radius:6px}
+  .compare-side h4{font-size:13px;margin-bottom:6px;font-weight:600}
+  .compare-side p{font-size:13px;color:var(--ink-2);line-height:1.55}
+  .compare-table{width:100%;border-collapse:collapse;font-size:13px}
+  .compare-table th,.compare-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  .compare-table th{font-weight:600;font-size:12px;color:var(--ink-2);background:#faf6ef}
+  .compare-table th.col-bad{color:var(--rust)}
+  .compare-table th.col-good{color:var(--green)}
+  .compare-table td.row-label{color:var(--ink-2);font-weight:500;width:30%}
+  .compare-table td.cell-bad{color:var(--ink)}
+  .compare-table td.cell-good{color:var(--ink)}
+  .section-heading{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--ink);margin:28px 0 12px;letter-spacing:-0.2px}
+  .section-heading:first-child{margin-top:0}
+
+  /* Step 1 — Feeds */
+  .feed-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .feed-table th{background:#faf6ef;padding:10px 14px;text-align:left;font-size:11px;color:var(--ink-2);font-weight:500;text-transform:uppercase;letter-spacing:0.4px;border-bottom:1px solid var(--border)}
+  .feed-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+  .feed-table tr.feed-row{cursor:pointer}
+  .feed-table tr.feed-row:hover{background:#faf7f0}
+  .feed-table tr.feed-row.highlighted{background:var(--rust-bg)}
+  .feed-table tr.feed-detail-row{display:none}
+  .feed-table tr.feed-detail-row.open{display:table-row}
+  .feed-detail{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:16px;background:#fbf7ee}
+  .kv-table{font-size:12.5px;width:100%}
+  .kv-table td{padding:4px 0;border:none;vertical-align:top}
+  .kv-table td.k{color:var(--ink-2);width:130px;font-family:'DM Mono',monospace;font-size:11.5px}
+  .kv-table td.v{color:var(--ink);font-family:'DM Mono',monospace;font-size:11.5px}
+  .mode-row{display:flex;gap:6px;margin:6px 0 14px}
+  .mode-btn{font-family:'DM Mono',monospace;font-size:10px;padding:5px 10px;border:1px solid var(--border);background:#fff;color:var(--ink-2);border-radius:4px;cursor:pointer;letter-spacing:0.4px}
+  .mode-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-size:12.5px}
+  .toggle{width:32px;height:18px;background:#d1c9b8;border-radius:10px;position:relative;cursor:pointer;transition:background .15s}
+  .toggle.on{background:#16a34a}
+  .toggle::after{content:'';position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
+  .toggle.on::after{left:16px}
+  .field-label{font-size:11px;color:var(--ink-2);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.4px;margin:10px 0 4px}
+  .text-input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:5px;font-family:'DM Mono',monospace;font-size:11.5px;background:#fff;color:var(--ink)}
+  .help-line{font-size:11px;color:var(--ink-3);margin-top:4px}
+
+  /* Scorecards */
+  .scorecard-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .scorecard{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;display:flex;align-items:center;gap:16px}
+  .ring{width:60px;height:60px;flex-shrink:0;position:relative}
+  .ring svg{width:60px;height:60px;transform:rotate(-90deg)}
+  .ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-weight:600;font-size:18px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-0.5px}
+  .scorecard h4{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:3px}
+  .scorecard p{font-size:12px;color:var(--ink-2);line-height:1.45}
+
+  /* Add feed form */
+  .add-form{display:none;margin-top:12px;padding:16px;background:#fbf7ee;border:1px dashed var(--border);border-radius:8px}
+  .add-form.open{display:block}
+  .add-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+  /* Step 2 — Contracts */
+  .tabs{display:flex;gap:2px;margin-bottom:18px;border-bottom:1px solid var(--border)}
+  .tab{
+    font-family:'DM Mono',monospace;font-size:12px;padding:9px 14px;
+    cursor:pointer;color:var(--ink-2);border-bottom:2px solid transparent;
+    margin-bottom:-1px;
+  }
+  .tab.active{color:var(--ink);border-bottom-color:var(--rust);font-weight:500}
+  .contract-tab{display:none}
+  .contract-tab.active{display:block}
+  .contract-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .contract-name{font-family:'DM Mono',monospace;font-size:14px;color:var(--ink);font-weight:500}
+  .contract-vendor{font-size:12px;color:var(--ink-2);margin-top:2px}
+  .contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .rule-row{display:flex;align-items:flex-start;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .rule-row:last-child{border-bottom:none}
+  .rule-row.fail{background:var(--rust-bg);margin:0 -12px;padding:9px 12px;border-radius:4px;border-bottom-color:var(--rust-border)}
+  .rule-label{font-family:'DM Mono',monospace;font-size:12px;color:var(--ink)}
+  .rule-note{font-size:11px;color:var(--rust);margin-top:3px;font-family:'DM Mono',monospace}
+  .yaml-block{background:#1c1410;color:#e7e1d3;border-radius:6px;padding:14px 16px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.65;position:relative;overflow-x:auto}
+  .yaml-block .yk{color:#e8b4ae}
+  .yaml-block .ys{color:#86efac}
+  .yaml-block .yn{color:#fcd34d}
+  .yaml-block .yc{color:#a89880}
+  .yaml-copy{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.08);color:#e7e1d3;border:1px solid rgba(255,255,255,0.15);font-family:'DM Mono',monospace;font-size:10px;padding:3px 8px;border-radius:3px;cursor:pointer}
+  .yaml-copy:hover{background:rgba(255,255,255,0.15)}
+  .amber-info{background:var(--amber-bg);border:1px solid var(--amber-border);border-radius:6px;padding:12px 14px;margin-top:12px;font-size:13px;color:var(--ink)}
+  .amber-info h5{color:var(--amber);font-size:13px;font-weight:600;margin-bottom:4px}
+  .amber-info p{color:var(--ink-2);font-size:12.5px;line-height:1.55}
+
+  /* Step 3 — Enforcement */
+  .status-banner{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;font-size:13px;margin-bottom:16px}
+  .status-banner.warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber)}
+  .status-banner.fail{background:var(--rust-bg);border:1px solid var(--rust-border);color:var(--rust)}
+  .pulse{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+  .sim-log{display:none;background:#0f0a08;border-radius:6px;padding:14px 16px;font-family:'DM Mono',monospace;font-size:11.5px;color:#e7e1d3;line-height:1.7;margin-top:14px;max-height:420px;overflow-y:auto}
+  .sim-log.show{display:block}
+  .sim-line{opacity:0;transform:translateY(2px);transition:opacity .25s,transform .25s}
+  .sim-line.in{opacity:1;transform:translateY(0)}
+  .sim-line .pass{color:#86efac}
+  .sim-line .fail{color:#fca5a5}
+  .sim-line .verdict{color:#fca5a5;font-weight:600}
+  .sim-line .warehouse{color:#86efac;font-weight:600}
+  .sim-line .alertl{color:#fcd34d}
+  .sim-line .ts{color:#78716c}
+  .outcomes{display:none;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:18px}
+  .outcomes.show{display:grid}
+  .outcome-card{padding:14px;border-radius:6px;border:1px solid;font-size:13px}
+  .outcome-card.green{background:var(--green-bg);border-color:var(--green-border)}
+  .outcome-card.rust{background:var(--rust-bg);border-color:var(--rust-border)}
+  .outcome-card.amber{background:var(--amber-bg);border-color:var(--amber-border)}
+  .outcome-card h5{font-weight:600;font-size:13px;margin-bottom:6px}
+  .outcome-card.green h5{color:var(--green)}
+  .outcome-card.rust h5{color:var(--rust)}
+  .outcome-card.amber h5{color:var(--amber)}
+  .outcome-card p{font-size:12.5px;color:var(--ink-2);line-height:1.55;font-family:'DM Mono',monospace}
+  .relief-card{display:none;background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;padding:14px 16px;margin-top:16px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--green)}
+  .relief-card.show{display:block}
+  .compare-2col{display:none;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .compare-2col.show{display:grid}
+  .compare-2col .c-side{padding:14px;border-radius:6px;border:1px solid}
+  .compare-2col .c-bad{background:var(--rust-bg);border-color:var(--rust-border)}
+  .compare-2col .c-good{background:var(--green-bg);border-color:var(--green-border)}
+  .compare-2col h5{font-weight:600;font-size:13px;margin-bottom:6px}
+  .compare-2col .c-bad h5{color:var(--rust)}
+  .compare-2col .c-good h5{color:var(--green)}
+  .compare-2col p{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+
+  /* Step 4 — Alerts */
+  .quarantine-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:14px}
+  .quarantine-item.primary{border-color:var(--rust-border);background:var(--rust-bg)}
+  .quarantine-item.amber{border-color:var(--amber-border);background:var(--amber-bg)}
+  .quarantine-item.resolved{opacity:0.55}
+  .qi-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+  .qi-title{font-family:'DM Mono',monospace;font-size:13px;color:var(--ink);font-weight:500}
+  .qi-meta{font-size:12px;color:var(--ink-2);margin-top:2px}
+  .violation-panel{background:#fff;border:1px solid var(--rust-border);border-radius:6px;padding:12px 14px;margin:10px 0;font-size:12.5px}
+  .violation-row{padding:8px 0;border-bottom:1px solid #f3e6e3;font-family:'DM Mono',monospace;font-size:12px}
+  .violation-row:last-child{border-bottom:none}
+  .violation-row .vh{color:var(--rust);font-weight:500;display:block;margin-bottom:3px}
+  .qi-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .email-draft{display:none;margin-top:10px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:12px 14px}
+  .email-draft.open{display:block}
+  .email-draft pre{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--ink);white-space:pre-wrap;line-height:1.6}
+  .email-actions{display:flex;gap:8px;margin-top:10px}
+
+  /* Slack mock */
+  .slack-mock{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px}
+  .slack-header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:14px}
+  .slack-channel{font-weight:600;color:var(--ink);font-size:14px}
+  .slack-channel .hash{color:var(--ink-3)}
+  .slack-msg{display:flex;gap:10px;padding:10px 0}
+  .slack-avatar{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0}
+  .slack-avatar.velraq{background:var(--rust)}
+  .slack-avatar.sc{background:var(--ink);border-radius:50%;font-family:'DM Sans',sans-serif;font-size:12px}
+  .slack-name{font-weight:600;font-size:13px;color:var(--ink)}
+  .slack-bot{background:#e7e1d3;color:var(--ink-2);font-family:'DM Mono',monospace;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:6px;vertical-align:middle}
+  .slack-time{color:var(--ink-3);font-size:11px;margin-left:6px}
+  .slack-body{font-size:13px;color:var(--ink);margin-top:3px;line-height:1.55}
+  .slack-attach{margin-top:8px;border-left:3px solid var(--rust);background:#faf7f0;padding:10px 12px;border-radius:0 6px 6px 0;font-family:'DM Mono',monospace;font-size:11.5px;color:var(--ink-2);line-height:1.65}
+  .slack-attach .at-line{color:var(--ink)}
+  .slack-attach .at-rust{color:var(--rust)}
+
+  /* Step 5 — Audit */
+  .audit-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:12.5px}
+  .audit-table th{background:#faf6ef;padding:9px 12px;text-align:left;font-size:10.5px;color:var(--ink-2);font-weight:500;text-transform:uppercase;letter-spacing:0.4px;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace}
+  .audit-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:11.5px;vertical-align:middle}
+  .audit-table tr.row-q{background:#fff7f5}
+  .audit-table tr.row-w{background:#fffbeb}
+  .audit-table tr.audit-row{cursor:pointer}
+  .audit-table tr.audit-row:hover{background:#faf7f0}
+  .audit-detail-row{display:none}
+  .audit-detail-row.open{display:table-row}
+  .audit-detail{padding:14px;background:#0f0a08;color:#e7e1d3;font-family:'DM Mono',monospace;font-size:11px;line-height:1.7}
+  .audit-detail .dk{color:#a89880}
+  .audit-detail .dv{color:#86efac;word-break:break-all}
+  .verify-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:14px;flex-wrap:wrap}
+  .chain-ok{display:flex;align-items:center;gap:6px;color:var(--green);font-size:12.5px;font-weight:500}
+  .hash-visual{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap}
+  .hash-block{flex:1;min-width:240px;background:#0f0a08;color:#e7e1d3;padding:14px 16px;border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;line-height:1.65}
+  .hash-block .hk{color:#a89880}
+  .hash-block .hv{color:#86efac;word-break:break-all}
+  .hash-arrow{color:var(--ink-3);font-size:20px}
+  .verified-banner{display:flex;align-items:center;gap:10px;background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);padding:12px 16px;border-radius:8px;margin-top:14px;font-size:13px}
+  .spinner{width:14px;height:14px;border:2px solid #d1c9b8;border-top-color:var(--rust);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Step 6 — Impact */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .stat-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px}
+  .stat-num{font-family:'DM Sans',sans-serif;font-weight:600;font-size:34px;letter-spacing:-0.5px;font-variant-numeric:tabular-nums;line-height:1;margin-bottom:8px}
+  .stat-num.rust{color:var(--rust)}
+  .stat-num.green{color:var(--green)}
+  .stat-label{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:4px}
+  .stat-sub{font-size:12px;color:var(--ink-2);line-height:1.5}
+  .calc-card{background:var(--ink);color:#fff;border-radius:8px;padding:18px 20px;margin-top:16px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.75}
+  .calc-card h4{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff;margin-bottom:10px}
+  .calc-card .src{color:#a89880;font-size:10px;margin-top:10px;padding-top:10px;border-top:1px solid #3a2d27}
+  .impact-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:12.5px;margin-top:16px}
+  .impact-table th{background:#faf6ef;padding:10px 12px;text-align:left;font-size:11px;color:var(--ink-2);font-weight:500;text-transform:uppercase;letter-spacing:0.4px;border-bottom:1px solid var(--border)}
+  .impact-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:12.5px}
+
+  /* Vendor scorecard tab cards */
+  .vs-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:14px}
+  .vs-head{display:flex;gap:18px;align-items:center}
+  .vs-meta{flex:1}
+  .vs-meta h4{font-weight:600;font-size:15px;color:var(--ink);margin-bottom:3px}
+  .vs-meta p{font-size:12.5px;color:var(--ink-2)}
+  .vs-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+  .vs-stat{background:#faf6ef;border:1px solid var(--border);border-radius:6px;padding:10px 12px}
+  .vs-stat-num{font-family:'DM Sans',sans-serif;font-weight:600;font-size:18px;color:var(--ink);letter-spacing:-0.3px}
+  .vs-stat-label{font-size:11px;color:var(--ink-2);margin-top:2px}
+  .vs-note{margin-top:12px;font-size:12.5px;color:var(--ink-2);line-height:1.55;padding:10px 12px;background:#fbf7ee;border-radius:6px;border-left:3px solid var(--ink-3)}
+  .vs-note.amber{background:var(--amber-bg);border-left-color:var(--amber)}
+  .vs-note.rust{background:var(--rust-bg);border-left-color:var(--rust)}
+
+  /* CTA */
+  .cta-section{text-align:center;margin-top:48px;padding:36px 24px;border-top:1px solid var(--border)}
+  .cta-section h2{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--ink);margin-bottom:14px;letter-spacing:-0.3px}
+  .cta-section .cta-sub{font-size:14px;color:var(--ink-2);max-width:520px;margin:0 auto 16px;line-height:1.6}
+  .cta-section .cta-tiny{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-3);margin-bottom:22px}
+  .cta-section .cta-foot{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-3);margin-top:16px}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;
+    font-family:'DM Mono',monospace;font-size:11px;padding:8px 16px;border-radius:20px;
+    opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;
+    pointer-events:none;z-index:200;
+  }
+  .toast.show{opacity:1;transform:translateY(0)}
+
+  /* Copy flash */
+  .flash{
+    position:absolute;background:var(--green);color:#fff;font-family:'DM Mono',monospace;
+    font-size:10px;padding:3px 8px;border-radius:3px;
+    opacity:0;transition:opacity .2s;pointer-events:none;
+  }
+  .flash.show{opacity:1}
+
+  /* Min width overlay */
+  .min-overlay{
+    display:none;position:fixed;inset:0;background:var(--bg);z-index:999;
+    align-items:center;justify-content:center;text-align:center;padding:30px;
+    font-family:'DM Sans',sans-serif;
+  }
+  @media (max-width:1023px){
+    .min-overlay{display:flex}
+  }
+
+  /* Inline link button (e.g. in banner) */
+  .inline-action{display:inline-flex;align-items:center;gap:6px;background:var(--rust);color:#fff;font-family:'DM Sans',sans-serif;font-weight:500;font-size:12px;padding:7px 14px;border-radius:6px;border:none;cursor:pointer;text-decoration:none}
+  .inline-action:hover{background:#a3322a}
+
+  .closing-note{font-style:italic;text-align:center;font-size:13px;color:var(--ink-2);margin-top:14px;line-height:1.55}
+  .step-foot{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-3);margin-top:8px}
+
+  /* Card with rust left border */
+  .card-rust{border-left:3px solid var(--rust)}
+</style>
+</head>
+<body>
+
+<div class="min-overlay">
+  <div>
+    <div class="logo" style="font-size:28px;margin-bottom:14px">vel<span class="r">[r]</span>aq</div>
+    <div style="font-size:14px;color:var(--ink-2);max-width:380px">This demo is optimised for laptop or desktop. Please open on a wider screen.</div>
+  </div>
+</div>
+
+<header>
+  <div class="h-left">
+    <div class="logo">vel<span class="r">[r]</span>aq</div>
+    <span class="badge-dark">V2 BETA</span>
+  </div>
+  <div class="h-right">
+    <span class="h-customer">GFS Global Freight Solutions</span>
+    <span class="badge-dark">BETA</span>
+    <div class="avatar">JM</div>
+  </div>
+</header>
+
+<aside>
+  <div class="side-label">DEMO</div>
+  <div class="nav-item active" data-step="0" onclick="nav(0)">
+    <div class="step-dot">0</div>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+    <span>Overview</span>
+  </div>
+  <div class="nav-item" data-step="1" onclick="nav(1)">
+    <div class="step-dot">1</div>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4l-4 4 4 4"/><path d="M3 8h14"/><path d="M17 20l4-4-4-4"/><path d="M21 16H7"/></svg>
+    <span>Vendor Feeds</span>
+  </div>
+  <div class="nav-item" data-step="2" onclick="nav(2)">
+    <div class="step-dot">2</div>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+    <span>Contracts</span>
+  </div>
+  <div class="nav-item" data-step="3" onclick="nav(3)">
+    <div class="step-dot">3</div>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg>
+    <span>Enforcement</span>
+  </div>
+  <div class="nav-item" data-step="4" onclick="navStep4()">
+    <div class="step-dot">4</div>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
+    <span>Alerts</span>
+    <span class="nav-badge" id="alert-badge">1</span>
+  </div>
+  <div class="nav-item" data-step="5" onclick="nav(5)">
+    <div class="step-dot">5</div>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>
+    <span>Audit Log</span>
+  </div>
+  <div class="nav-item" data-step="6" onclick="nav(6)">
+    <div class="step-dot">6</div>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+    <span>Impact &amp; ROI</span>
+  </div>
+
+  <div class="side-divider"></div>
+  <div class="side-label">ACTIVE FEEDS</div>
+  <div class="feed-mini" onclick="goFeed('carrier_rates')">
+    <div class="feed-name"><span class="feed-dot green"></span>carrier_rates</div>
+    <div class="feed-sub">SFTP · Daily 06:00</div>
+  </div>
+  <div class="feed-mini" onclick="goFeed('route_manifest')">
+    <div class="feed-name"><span class="feed-dot amber"></span>route_manifest</div>
+    <div class="feed-sub">SFTP · 2x Daily</div>
+  </div>
+  <div class="feed-mini" onclick="goFeed('shipment_status')">
+    <div class="feed-name"><span class="feed-dot rust"></span>shipment_status</div>
+    <div class="feed-sub">API · Realtime</div>
+    <span class="q-tag">QUARANTINED</span>
+  </div>
+
+  <div class="side-divider"></div>
+  <div class="side-label">PILOT</div>
+  <div class="pilot-note">60-day free pilot · 1 feed · 1 contract</div>
+</aside>
+
+<main id="main-content">
+<div class="container">
+
+<!-- =========================================================
+     STEP 0 — OVERVIEW
+========================================================= -->
+<section class="step-section active" id="section-0">
+  <div class="opening-banner">
+    <div class="quote">"GFS receives vendor data every day. This morning, one of those files caused a problem — and GFS's warehouse would never have known. This is what happened, and what stopped it."</div>
+    <button class="inline-action" onclick="nav(1)">Walk through it →</button>
+  </div>
+
+  <div class="progress-chip">Overview — Start here</div>
+  <h1 class="page-title">Something went wrong this morning — and your pipeline didn't notice.</h1>
+  <p class="page-sub">Three vendors. Daily feeds. One bad file. Here is exactly what happened.</p>
+
+  <!-- Block A -->
+  <div class="card card-rust" style="margin-top:18px">
+    <h3 class="syne" style="font-weight:700;font-size:15px;color:var(--ink);margin-bottom:6px">What happened this morning</h3>
+
+    <div class="timeline-row">
+      <div class="timeline-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 20h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="timeline-title">A DHL engineer upgraded their system on Tuesday</div>
+        <div class="timeline-body">As part of the upgrade, a field called <span class="mono">status_code</span> was renamed to <span class="mono">delivery_status_code</span> in their export. The DHL engineer was doing their job correctly. They had a ticket, a review, a working system. They had no way of knowing GFS's pipeline depended on that field name.</div>
+      </div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="timeline-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <div>
+        <div class="timeline-title">The file arrived at 08:11 this morning — and GFS's pipeline ran green</div>
+        <div class="timeline-body">No error. No alert. The pipeline dashboard showed a green tick. But <span class="mono">status_code</span> was now NULL for all 1,847 rows in that file. Delivery ETA calculations were running on missing data.</div>
+      </div>
+    </div>
+
+    <div class="timeline-row">
+      <div class="timeline-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div>
+        <div class="timeline-title">GFS's ops team found out on Thursday — via a customer complaint</div>
+        <div class="timeline-body">A customer called to say their shipment tracking hadn't updated in three days. By the time the team traced it back to the DHL file, the data had already been used in three reports and two decisions.</div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--rust-border);padding-top:12px;margin-top:10px;font-size:13px;color:var(--ink-2);line-height:1.6">
+      The vendor was not careless. GFS's engineers did nothing wrong. There was simply no system between the vendor and the warehouse that checked the file before it landed.
+    </div>
+  </div>
+
+  <!-- Block B -->
+  <h2 class="section-heading">Why does this happen?</h2>
+  <div class="four-grid">
+    <div class="root-card">
+      <div class="root-num">4–6 hrs</div>
+      <div class="root-title">Average time to find the root cause</div>
+      <div class="root-body">After a bad vendor file lands, this is how long it takes a data engineer to trace the failure. The pipeline is green. The data is wrong. The investigation is manual.</div>
+      <span class="source-badge">Wakefield Research · 2023</span>
+    </div>
+    <div class="root-card">
+      <div class="root-num">44%</div>
+      <div class="root-title">Of a data engineer's week spent on pipeline maintenance</div>
+      <div class="root-body">Nearly half their time is reactive firefighting — not building. Bad vendor data is a large contributor to that number.</div>
+      <span class="source-badge">Wakefield Research · 2023</span>
+    </div>
+    <div class="root-card">
+      <div class="root-num">5–7 days</div>
+      <div class="root-title">Per year lost to unnoticed API/feed changes</div>
+      <div class="root-body">Organisations without proactive third-party monitoring spend this reconciling data gaps caused by vendor changes they never caught.</div>
+      <span class="source-badge">Gartner · 2024</span>
+    </div>
+    <div class="root-card highlight">
+      <div class="root-num">0</div>
+      <div class="root-title">Tools that check vendor files before they reach your warehouse</div>
+      <div class="root-body">Infrastructure monitoring catches server failures. Data observability catches anomalies in your warehouse. Neither one sits before ingestion and checks the contract.</div>
+      <span class="badge badge-rust-solid" style="margin-top:10px">This is the gap Velraq fills</span>
+    </div>
+  </div>
+
+  <!-- Block C -->
+  <div class="card" style="background:var(--rust-bg);border-color:var(--rust-border);margin-top:24px">
+    <h3 class="syne" style="font-weight:700;font-size:15px;color:var(--rust);margin-bottom:12px">Most failures announce themselves. This one doesn't.</h3>
+    <div class="compare-row">
+      <div class="compare-side" style="background:#fff;border:1px solid var(--border)">
+        <h4>Infrastructure failure</h4>
+        <p style="margin-bottom:8px">Throws an error. You know in minutes.</p>
+        <span class="badge badge-green">Visible</span>
+      </div>
+      <div class="compare-side" style="background:#fff;border:1px solid var(--rust-border)">
+        <h4>Vendor data failure</h4>
+        <p style="margin-bottom:8px">No error. Pipeline runs green. Data is silently wrong. Nobody knows until a report breaks or a customer complains.</p>
+        <span class="badge badge-rust">Silent</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-size:13px;color:var(--ink-2);line-height:1.55">By the time someone notices, the damage is already done — and usually it has been done for days.</div>
+  </div>
+
+  <!-- Block D -->
+  <h2 class="section-heading">What this looks like on a Monday morning</h2>
+  <div class="three-monday">
+    <div class="monday-card">
+      <div class="monday-time">MONDAY 09:00 — GFS OPS TEAM</div>
+      <div class="monday-body">The carrier rate sheet from Freightline loaded with a blank <span class="mono">price_gbp</span> column. 1,200 shipment quotes went out at £0. Finance found out at end of day reconciliation.</div>
+    </div>
+    <div class="monday-card">
+      <div class="monday-time">MONDAY 09:00 — GFS DATA TEAM</div>
+      <div class="monday-body">The route_manifest file from RouteIQ switched date format overnight — from ISO 8601 to DD/MM/YYYY. ETA calculations were off by months. The team spent 6 hours tracing it.</div>
+    </div>
+    <div class="monday-card">
+      <div class="monday-time">MONDAY 09:00 — GFS CDO</div>
+      <div class="monday-body">DHL's shipment_status feed had been missing <span class="mono">status_code</span> for 3 days before it was caught. Three reports sent to the board contained wrong delivery performance figures. The data was already in decisions.</div>
+    </div>
+  </div>
+  <div class="closing-note">None of these were the vendor's fault. None were GFS's fault. There was no gate. Now there is.</div>
+
+  <!-- Block E -->
+  <h2 class="section-heading">What Velraq does</h2>
+  <div class="what-velraq">
+    <div class="wv-card">
+      <div class="wv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg></div>
+      <div class="wv-title">Intercept</div>
+      <div class="wv-body">Every vendor file hits Velraq before your warehouse. SFTP drop, API call, webhook — all intercepted at the edge.</div>
+    </div>
+    <div class="wv-card">
+      <div class="wv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="wv-title">Check</div>
+      <div class="wv-body">Validated against a contract you define once. Rules run in under 2 seconds. No manual review needed.</div>
+    </div>
+    <div class="wv-card">
+      <div class="wv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+      <div class="wv-title">Quarantine or Pass</div>
+      <div class="wv-body">Clean file → straight to your warehouse. Bad file → quarantine + Slack alert with exact diagnosis. Warehouse clean.</div>
+    </div>
+  </div>
+
+  <!-- Block F -->
+  <h2 class="section-heading">How it flows</h2>
+  <div class="card flow-diagram">
+    <svg viewBox="0 0 1000 240" width="100%" style="display:block">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a89880"/>
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#166534"/>
+        </marker>
+        <marker id="arrow-rust" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/>
+        </marker>
+      </defs>
+
+      <!-- Vendor -->
+      <rect x="20" y="100" width="120" height="50" rx="6" fill="#fff" stroke="#ddd6c8"/>
+      <text x="80" y="125" text-anchor="middle" font-family="DM Sans" font-size="13" fill="#1c1410" font-weight="600">Vendor</text>
+      <text x="80" y="140" text-anchor="middle" font-family="DM Mono" font-size="10" fill="#78716c">DHL, RouteIQ...</text>
+
+      <!-- File -->
+      <rect x="170" y="105" width="80" height="40" rx="4" fill="#faf6ef" stroke="#ddd6c8"/>
+      <text x="210" y="129" text-anchor="middle" font-family="DM Mono" font-size="11" fill="#1c1410">FILE</text>
+
+      <line x1="140" y1="125" x2="170" y2="125" stroke="#a89880" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Gateway -->
+      <rect x="280" y="90" width="160" height="70" rx="6" fill="var(--narr-bg)" stroke="#c0392b" stroke-width="2"/>
+      <text x="360" y="118" text-anchor="middle" font-family="Syne" font-size="13" fill="#c0392b" font-weight="700">Velraq Gateway</text>
+      <text x="360" y="138" text-anchor="middle" font-family="DM Mono" font-size="10" fill="#78716c">Contract check</text>
+      <text x="360" y="150" text-anchor="middle" font-family="DM Mono" font-size="10" fill="#78716c">&lt; 2 seconds</text>
+
+      <line x1="250" y1="125" x2="280" y2="125" stroke="#a89880" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Split decision -->
+      <line x1="440" y1="125" x2="500" y2="125" stroke="#a89880" stroke-width="2"/>
+      <line x1="500" y1="125" x2="500" y2="60" stroke="#a89880" stroke-width="2"/>
+      <line x1="500" y1="125" x2="500" y2="190" stroke="#a89880" stroke-width="2"/>
+
+      <!-- Pass branch -->
+      <text x="510" y="78" font-family="DM Mono" font-size="10" fill="#166534" font-weight="500">PASS</text>
+      <line x1="500" y1="60" x2="600" y2="60" stroke="#166534" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <rect x="610" y="38" width="150" height="45" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="685" y="58" text-anchor="middle" font-family="DM Sans" font-size="12" fill="#166534" font-weight="600">Raw Storage</text>
+      <text x="685" y="73" text-anchor="middle" font-family="DM Mono" font-size="10" fill="#166534">clean files</text>
+      <line x1="760" y1="60" x2="800" y2="60" stroke="#166534" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <rect x="810" y="38" width="160" height="45" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+      <text x="890" y="58" text-anchor="middle" font-family="DM Sans" font-size="12" fill="#166534" font-weight="600">Pipeline</text>
+      <text x="890" y="73" text-anchor="middle" font-family="DM Mono" font-size="10" fill="#166534">your warehouse</text>
+
+      <!-- Fail branch -->
+      <text x="510" y="200" font-family="DM Mono" font-size="10" fill="#c0392b" font-weight="500">FAIL</text>
+      <line x1="500" y1="190" x2="600" y2="190" stroke="#c0392b" stroke-width="2" marker-end="url(#arrow-rust)"/>
+      <rect x="610" y="168" width="150" height="45" rx="6" fill="#fff0ee" stroke="#e8b4ae"/>
+      <text x="685" y="188" text-anchor="middle" font-family="DM Sans" font-size="12" fill="#c0392b" font-weight="600">Quarantine</text>
+      <text x="685" y="203" text-anchor="middle" font-family="DM Mono" font-size="10" fill="#c0392b">bad files held</text>
+      <line x1="760" y1="190" x2="800" y2="190" stroke="#c0392b" stroke-width="2" marker-end="url(#arrow-rust)"/>
+      <rect x="810" y="168" width="160" height="45" rx="6" fill="#fff0ee" stroke="#e8b4ae"/>
+      <text x="890" y="188" text-anchor="middle" font-family="DM Sans" font-size="12" fill="#c0392b" font-weight="600">Slack Alert</text>
+      <text x="890" y="203" text-anchor="middle" font-family="DM Mono" font-size="10" fill="#c0392b">exact diagnosis</text>
+    </svg>
+  </div>
+
+  <!-- Block G -->
+  <h2 class="section-heading">What changes for GFS</h2>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-bad">Before Velraq</th>
+          <th class="col-good">With Velraq</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="row-label">When bad data is caught</td><td class="cell-bad">When a dashboard breaks (days)</td><td class="cell-good">Pre-ingestion, under 2 seconds</td></tr>
+        <tr><td class="row-label">Who finds out first</td><td class="cell-bad">Whoever runs the broken report</td><td class="cell-good">Slack alert, #data-ops, instantly</td></tr>
+        <tr><td class="row-label">What the diagnosis is</td><td class="cell-bad">Unknown — manual investigation</td><td class="cell-good">Exact field, rule, row count in alert</td></tr>
+        <tr><td class="row-label">Warehouse state</td><td class="cell-bad">Bad data ingested</td><td class="cell-good">Never touched</td></tr>
+        <tr><td class="row-label">Vendor accountability</td><td class="cell-bad">No record</td><td class="cell-good">Audit log + vendor scorecard</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Block H -->
+  <div style="text-align:center;margin-top:40px">
+    <button class="btn btn-primary btn-large" onclick="nav(1)">Walk through the live demo →</button>
+    <div class="step-foot">7 steps · ~5 minutes · GFS data already loaded</div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     STEP 1 — VENDOR FEEDS
+========================================================= -->
+<section class="step-section" id="section-1">
+  <div class="narration">
+    <div class="narration-text">
+      <div class="narration-l1">GFS has three active vendor feeds. Each one has a contract and an enforcement mode — switch the mode without touching your pipeline.</div>
+      <div class="narration-l2">The DHL feed at the bottom is the one that fired this morning. Click it to see what happened.</div>
+    </div>
+    <button class="btn btn-primary btn-small" onclick="nav(2)">Next: Contracts →</button>
+  </div>
+
+  <div class="progress-chip">Step 1 of 6 — Vendor Feeds</div>
+  <h1 class="page-title">Vendor Feeds</h1>
+  <p class="page-sub">3 active feeds · Last checked 4 minutes ago</p>
+  <p style="font-size:13px;color:var(--ink-2);margin-bottom:18px">These are the three feeds GFS depends on every day. One is already in trouble — click it to see what Velraq caught.</p>
+
+  <table class="feed-table">
+    <thead>
+      <tr>
+        <th>Feed Name</th><th>Vendor</th><th>Protocol</th><th>Format</th>
+        <th>Send Cycle</th><th>Mode</th><th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="feed-row" data-feed="carrier_rates" onclick="toggleFeed('carrier_rates')">
+        <td class="mono">carrier_rates</td><td>Freightline UK</td><td class="mono">SFTP</td><td class="mono">CSV</td>
+        <td>Daily 06:00 UTC</td><td><span class="badge badge-neutral">ALERT</span></td>
+        <td><span class="badge badge-green">PASS</span></td>
+      </tr>
+      <tr class="feed-detail-row" data-feed-detail="carrier_rates"><td colspan="7">
+        <div class="feed-detail">
+          <div>
+            <div class="field-label">Connection</div>
+            <table class="kv-table">
+              <tr><td class="k">endpoint</td><td class="v">sftp.freightline.co.uk</td></tr>
+              <tr><td class="k">auth</td><td class="v">SSH key (rotated 30d)</td></tr>
+              <tr><td class="k">format</td><td class="v">CSV · UTF-8</td></tr>
+              <tr><td class="k">schedule</td><td class="v">Daily 06:00 UTC</td></tr>
+              <tr><td class="k">last file</td><td class="v">carrier_rates_20260511.csv</td></tr>
+              <tr><td class="k">last received</td><td class="v">Today 06:02:14</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="field-label">Enforcement mode</div>
+            <div class="mode-row">
+              <button class="mode-btn" onclick="setMode(this,'observe')">OBSERVE</button>
+              <button class="mode-btn active" onclick="setMode(this,'alert')">ALERT</button>
+              <button class="mode-btn" onclick="setMode(this,'enforce')">ENFORCE</button>
+            </div>
+            <div class="toggle-row"><span>Slack alerts</span><div class="toggle on" onclick="toggleSwitch(this)"></div></div>
+            <div class="toggle-row"><span>Auto-retry</span><div class="toggle" onclick="toggleSwitch(this)"></div></div>
+            <div class="toggle-row"><span>Email alerts</span><div class="toggle on" onclick="toggleSwitch(this)"></div></div>
+          </div>
+        </div>
+      </td></tr>
+
+      <tr class="feed-row" data-feed="route_manifest" onclick="toggleFeed('route_manifest')">
+        <td class="mono">route_manifest</td><td>RouteIQ Ltd</td><td class="mono">SFTP</td><td class="mono">CSV</td>
+        <td>Twice daily</td><td><span class="badge badge-neutral">ALERT</span></td>
+        <td><span class="badge badge-amber">WARNING · 2</span></td>
+      </tr>
+      <tr class="feed-detail-row" data-feed-detail="route_manifest"><td colspan="7">
+        <div class="feed-detail">
+          <div>
+            <div class="field-label">Connection</div>
+            <table class="kv-table">
+              <tr><td class="k">endpoint</td><td class="v">sftp.routeiq.com</td></tr>
+              <tr><td class="k">auth</td><td class="v">Password + IP allowlist</td></tr>
+              <tr><td class="k">format</td><td class="v">CSV · UTF-8</td></tr>
+              <tr><td class="k">schedule</td><td class="v">07:00 &amp; 19:00 UTC</td></tr>
+              <tr><td class="k">last file</td><td class="v">route_manifest_20260511_070314.csv</td></tr>
+              <tr><td class="k">last received</td><td class="v">Today 07:03:14</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="field-label">Enforcement mode</div>
+            <div class="mode-row">
+              <button class="mode-btn" onclick="setMode(this,'observe')">OBSERVE</button>
+              <button class="mode-btn active" onclick="setMode(this,'alert')">ALERT</button>
+              <button class="mode-btn" onclick="setMode(this,'enforce')">ENFORCE</button>
+            </div>
+            <div class="toggle-row"><span>Slack alerts</span><div class="toggle on" onclick="toggleSwitch(this)"></div></div>
+            <div class="toggle-row"><span>Auto-retry</span><div class="toggle" onclick="toggleSwitch(this)"></div></div>
+            <div class="toggle-row"><span>Email alerts</span><div class="toggle on" onclick="toggleSwitch(this)"></div></div>
+          </div>
+        </div>
+      </td></tr>
+
+      <tr class="feed-row highlighted" data-feed="shipment_status" onclick="toggleFeed('shipment_status')">
+        <td class="mono">shipment_status</td><td>DHL Express</td><td class="mono">API</td><td class="mono">JSON</td>
+        <td>Realtime</td><td><span class="badge badge-neutral">ALERT</span></td>
+        <td><span class="badge badge-rust">QUARANTINED</span></td>
+      </tr>
+      <tr class="feed-detail-row open" data-feed-detail="shipment_status"><td colspan="7">
+        <div class="feed-detail">
+          <div>
+            <div class="field-label">Connection</div>
+            <table class="kv-table">
+              <tr><td class="k">endpoint</td><td class="v">api.dhl.com/shipments/v3</td></tr>
+              <tr><td class="k">auth</td><td class="v">OAuth2 · client credentials</td></tr>
+              <tr><td class="k">format</td><td class="v">JSON</td></tr>
+              <tr><td class="k">schedule</td><td class="v">Webhook · realtime</td></tr>
+              <tr><td class="k">last file</td><td class="v">shipment_status_20260511_081102.json</td></tr>
+              <tr><td class="k">last received</td><td class="v">Today 08:11:02</td></tr>
+            </table>
+
+            <div class="field-label">Email alert recipients</div>
+            <input type="text" class="text-input" id="recipient-input" value="james.morrow@gfs.co.uk, sarah.chen@gfs.co.uk"/>
+            <button class="btn btn-small" style="margin-top:8px" onclick="saveRecipients()">Save</button>
+            <div class="help-line">These addresses receive an email alert on every quarantine event.</div>
+          </div>
+          <div>
+            <div class="field-label">Enforcement mode</div>
+            <div class="mode-row">
+              <button class="mode-btn" onclick="setMode(this,'observe')">OBSERVE</button>
+              <button class="mode-btn active" onclick="setMode(this,'alert')">ALERT</button>
+              <button class="mode-btn" onclick="setMode(this,'enforce')">ENFORCE</button>
+            </div>
+            <div class="toggle-row"><span>Slack alerts</span><div class="toggle on" onclick="toggleSwitch(this)"></div></div>
+            <div class="toggle-row"><span>Auto-retry</span><div class="toggle" onclick="toggleSwitch(this)"></div></div>
+            <div class="toggle-row"><span>Email alerts</span><div class="toggle on" onclick="toggleSwitch(this)"></div></div>
+          </div>
+        </div>
+      </td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-heading">Vendor reliability — last 30 days</h2>
+  <div class="scorecard-grid">
+    <div class="scorecard">
+      <div class="ring">
+        <svg><circle cx="30" cy="30" r="26" fill="none" stroke="#e7e1d3" stroke-width="5"/><circle cx="30" cy="30" r="26" fill="none" stroke="#16a34a" stroke-width="5" stroke-dasharray="163.36" stroke-dashoffset="3.3" stroke-linecap="round"/></svg>
+        <div class="ring-num">98</div>
+      </div>
+      <div>
+        <h4>Freightline UK</h4>
+        <p>31 / 31 files clean this month</p>
+      </div>
+    </div>
+    <div class="scorecard">
+      <div class="ring">
+        <svg><circle cx="30" cy="30" r="26" fill="none" stroke="#e7e1d3" stroke-width="5"/><circle cx="30" cy="30" r="26" fill="none" stroke="#d97706" stroke-width="5" stroke-dasharray="163.36" stroke-dashoffset="24.5" stroke-linecap="round"/></svg>
+        <div class="ring-num">85</div>
+      </div>
+      <div>
+        <h4>RouteIQ Ltd</h4>
+        <p>28 / 31 — 3 format warnings</p>
+      </div>
+    </div>
+    <div class="scorecard">
+      <div class="ring">
+        <svg><circle cx="30" cy="30" r="26" fill="none" stroke="#e7e1d3" stroke-width="5"/><circle cx="30" cy="30" r="26" fill="none" stroke="#c0392b" stroke-width="5" stroke-dasharray="163.36" stroke-dashoffset="45.7" stroke-linecap="round"/></svg>
+        <div class="ring-num">72</div>
+      </div>
+      <div>
+        <h4>DHL Express</h4>
+        <p>1 quarantine event this month</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:18px">
+    <button class="btn" onclick="document.getElementById('add-form').classList.toggle('open')">+ Add vendor feed</button>
+  </div>
+  <div class="add-form" id="add-form">
+    <div class="add-grid">
+      <div>
+        <div class="field-label">Feed name</div>
+        <input class="text-input" placeholder="e.g. customs_records"/>
+      </div>
+      <div>
+        <div class="field-label">Vendor</div>
+        <input class="text-input" placeholder="Vendor name"/>
+      </div>
+      <div>
+        <div class="field-label">Protocol</div>
+        <input class="text-input" placeholder="SFTP / API / Webhook"/>
+      </div>
+      <div>
+        <div class="field-label">Format</div>
+        <input class="text-input" placeholder="CSV / JSON / XML"/>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn btn-primary btn-small" onclick="addFeed()">Add feed</button>
+      <button class="btn btn-small" onclick="document.getElementById('add-form').classList.remove('open')">Cancel</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     STEP 2 — CONTRACTS
+========================================================= -->
+<section class="step-section" id="section-2">
+  <div class="narration">
+    <div class="narration-text">
+      <div class="narration-l1">A contract is the ruleset Velraq checks every file against. You set it once. Velraq enforces it on every file, forever.</div>
+      <div class="narration-l2">The DHL contract has 7 rules. This morning's file broke 2 of them. The rules are plain English — no code required.</div>
+    </div>
+    <button class="btn btn-primary btn-small" onclick="nav(3)">Next: See it enforced →</button>
+  </div>
+
+  <div class="progress-chip">Step 2 of 6 — Contracts</div>
+  <h1 class="page-title">Contracts</h1>
+  <p class="page-sub">One contract per feed · Version controlled · Editable any time</p>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="shipment_status_v3" onclick="setContractTab('shipment_status_v3')">shipment_status_v3</div>
+    <div class="tab" data-tab="carrier_rates_v2" onclick="setContractTab('carrier_rates_v2')">carrier_rates_v2</div>
+    <div class="tab" data-tab="route_manifest_v1" onclick="setContractTab('route_manifest_v1')">route_manifest_v1</div>
+  </div>
+
+  <!-- shipment_status_v3 -->
+  <div class="contract-tab active" id="contract-shipment_status_v3">
+    <div class="card">
+      <div class="contract-header">
+        <div>
+          <div class="contract-name">shipment_status_v3</div>
+          <div class="contract-vendor">DHL Express · 7 rules · 2 violations this morning</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="badge badge-rust">FAILING</span>
+          <button class="btn btn-small" onclick="toast('Edit mode — change rules and click Save to update.')">Edit contract</button>
+        </div>
+      </div>
+
+      <div class="contract-grid">
+        <div>
+          <div class="field-label">Required Fields</div>
+          <div class="rule-row"><span class="rule-label">shipment_id</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row"><span class="rule-label">carrier_code</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row fail">
+            <div>
+              <div class="rule-label">status_code</div>
+              <div class="rule-note">MISSING — field absent from payload</div>
+            </div>
+            <span class="badge badge-rust">FAIL</span>
+          </div>
+          <div class="rule-row"><span class="rule-label">destination_postcode</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row"><span class="rule-label">estimated_delivery</span><span class="badge badge-green">OK</span></div>
+        </div>
+        <div>
+          <div class="field-label">Quality Rules</div>
+          <div class="rule-row"><span class="rule-label">row_count ≥ 500</span><span class="badge badge-green">PASS (1,847)</span></div>
+          <div class="rule-row fail">
+            <div>
+              <div class="rule-label">null_rate(status_code) ≤ 5%</div>
+              <div class="rule-note">FAIL — 100% null (1,847 / 1,847 rows)</div>
+            </div>
+            <span class="badge badge-rust">FAIL</span>
+          </div>
+          <div class="rule-row"><span class="rule-label">duplicate_rate(shipment_id) ≤ 0.1%</span><span class="badge badge-green">PASS (0.0%)</span></div>
+        </div>
+      </div>
+
+      <div class="yaml-block">
+        <button class="yaml-copy" onclick="copyYaml(this)">Copy</button>
+<pre><span class="yc"># shipment_status_v3 — DHL Express</span>
+<span class="yk">contract</span>: shipment_status_v3
+<span class="yk">vendor</span>: <span class="ys">DHL Express</span>
+<span class="yk">format</span>: <span class="ys">json</span>
+
+<span class="yk">required_fields</span>:
+  - shipment_id
+  - carrier_code
+  - status_code        <span class="yc"># MISSING in today's file</span>
+  - destination_postcode
+  - estimated_delivery
+
+<span class="yk">quality_rules</span>:
+  - <span class="yk">name</span>: row_count
+    <span class="yk">min</span>: <span class="yn">500</span>
+  - <span class="yk">name</span>: null_rate
+    <span class="yk">field</span>: status_code
+    <span class="yk">max</span>: <span class="yn">0.05</span>      <span class="yc"># FAIL — got 1.00</span>
+  - <span class="yk">name</span>: duplicate_rate
+    <span class="yk">field</span>: shipment_id
+    <span class="yk">max</span>: <span class="yn">0.001</span>
+
+<span class="yk">on_failure</span>:
+  - quarantine_file
+  - slack_alert: <span class="ys">#data-ops</span>
+  - email_alert</pre>
+      </div>
+
+      <div class="amber-info">
+        <h5>First-time setup — one manual step required</h5>
+        <p>Velraq auto-scans a sample file and generates a contract draft. A data engineer reviews and activates it. After that — fully automated forever. The review step is intentional: a contract is a business decision, not just a technical one.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- carrier_rates_v2 -->
+  <div class="contract-tab" id="contract-carrier_rates_v2">
+    <div class="card">
+      <div class="contract-header">
+        <div>
+          <div class="contract-name">carrier_rates_v2</div>
+          <div class="contract-vendor">Freightline UK · 6 rules · 0 violations</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="badge badge-green">PASSING</span>
+          <button class="btn btn-small" onclick="toast('Edit mode — change rules and click Save to update.')">Edit contract</button>
+        </div>
+      </div>
+
+      <div class="contract-grid">
+        <div>
+          <div class="field-label">Required Fields</div>
+          <div class="rule-row"><span class="rule-label">rate_id</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row"><span class="rule-label">origin_postcode</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row"><span class="rule-label">destination_postcode</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row"><span class="rule-label">price_gbp</span><span class="badge badge-green">OK</span></div>
+        </div>
+        <div>
+          <div class="field-label">Quality Rules</div>
+          <div class="rule-row"><span class="rule-label">row_count ≥ 1000</span><span class="badge badge-green">PASS (1,204)</span></div>
+          <div class="rule-row"><span class="rule-label">null_rate(price_gbp) = 0%</span><span class="badge badge-green">PASS (0.0%)</span></div>
+        </div>
+      </div>
+
+      <div class="yaml-block">
+        <button class="yaml-copy" onclick="copyYaml(this)">Copy</button>
+<pre><span class="yc"># carrier_rates_v2 — Freightline UK</span>
+<span class="yk">contract</span>: carrier_rates_v2
+<span class="yk">vendor</span>: <span class="ys">Freightline UK</span>
+<span class="yk">format</span>: <span class="ys">csv</span>
+
+<span class="yk">required_fields</span>:
+  - rate_id
+  - origin_postcode
+  - destination_postcode
+  - price_gbp
+
+<span class="yk">quality_rules</span>:
+  - <span class="yk">name</span>: row_count
+    <span class="yk">min</span>: <span class="yn">1000</span>
+  - <span class="yk">name</span>: null_rate
+    <span class="yk">field</span>: price_gbp
+    <span class="yk">max</span>: <span class="yn">0.0</span>
+
+<span class="yk">on_failure</span>:
+  - quarantine_file
+  - slack_alert: <span class="ys">#data-ops</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- route_manifest_v1 -->
+  <div class="contract-tab" id="contract-route_manifest_v1">
+    <div class="card">
+      <div class="contract-header">
+        <div>
+          <div class="contract-name">route_manifest_v1</div>
+          <div class="contract-vendor">RouteIQ Ltd · 5 rules · 3 format warnings (last 30d)</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="badge badge-amber">WARNING</span>
+          <button class="btn btn-small" onclick="toast('Edit mode — change rules and click Save to update.')">Edit contract</button>
+        </div>
+      </div>
+
+      <div class="contract-grid">
+        <div>
+          <div class="field-label">Required Fields</div>
+          <div class="rule-row"><span class="rule-label">route_id</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row"><span class="rule-label">depot_code</span><span class="badge badge-green">OK</span></div>
+          <div class="rule-row"><span class="rule-label">eta_iso8601</span><span class="badge badge-green">OK</span></div>
+        </div>
+        <div>
+          <div class="field-label">Quality Rules</div>
+          <div class="rule-row"><span class="rule-label">row_count ≥ 200</span><span class="badge badge-green">PASS (412)</span></div>
+          <div class="rule-row fail">
+            <div>
+              <div class="rule-label">eta_iso8601 format = ISO 8601</div>
+              <div class="rule-note">WARNING — DD/MM/YYYY format detected</div>
+            </div>
+            <span class="badge badge-amber">WARN</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="yaml-block">
+        <button class="yaml-copy" onclick="copyYaml(this)">Copy</button>
+<pre><span class="yc"># route_manifest_v1 — RouteIQ Ltd</span>
+<span class="yk">contract</span>: route_manifest_v1
+<span class="yk">vendor</span>: <span class="ys">RouteIQ Ltd</span>
+<span class="yk">format</span>: <span class="ys">csv</span>
+
+<span class="yk">required_fields</span>:
+  - route_id
+  - depot_code
+  - eta_iso8601
+
+<span class="yk">quality_rules</span>:
+  - <span class="yk">name</span>: row_count
+    <span class="yk">min</span>: <span class="yn">200</span>
+  - <span class="yk">name</span>: date_format
+    <span class="yk">field</span>: eta_iso8601
+    <span class="yk">expects</span>: <span class="ys">ISO 8601</span>
+
+<span class="yk">on_failure</span>:
+  - quarantine_file
+  - slack_alert: <span class="ys">#data-ops</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     STEP 3 — ENFORCEMENT
+========================================================= -->
+<section class="step-section" id="section-3">
+  <div class="narration">
+    <div class="narration-text">
+      <div class="narration-l1">At 08:11 this morning, DHL sent a file with 1,847 rows. The status_code field was completely absent.</div>
+      <div class="narration-l2">Watch what Velraq did in the next 2 seconds.</div>
+    </div>
+    <button class="btn btn-primary btn-small" id="step3-next" disabled onclick="nav(4)">Run the simulation first →</button>
+  </div>
+
+  <div class="progress-chip">Step 3 of 6 — Enforcement</div>
+  <h1 class="page-title">Enforcement — Live simulation</h1>
+  <p class="page-sub">DHL Express · shipment_status · Today 08:11:02</p>
+
+  <div class="status-banner warn" id="status-banner">
+    <div class="pulse"></div>
+    <span>File in quarantine — awaiting review · 08:11:02</span>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div>
+        <h3 class="syne" style="font-weight:700;font-size:15px">Simulate: DHL file arrives</h3>
+        <p style="font-size:13px;color:var(--ink-2);margin-top:2px">Press the button to replay the intercept that happened this morning.</p>
+      </div>
+      <button class="btn btn-primary" id="sim-btn" onclick="runSimulation()">▶ Replay intercept</button>
+    </div>
+    <div class="sim-log" id="sim-log"></div>
+  </div>
+
+  <div class="relief-card" id="relief-card">This file would have hit your warehouse 11 minutes ago. It didn't.</div>
+
+  <div class="outcomes" id="outcomes">
+    <div class="outcome-card green">
+      <h5>Warehouse protected</h5>
+      <p>1,847 rows never touched your PostgreSQL tables. Your pipeline ran normally on yesterday's clean data.</p>
+    </div>
+    <div class="outcome-card rust">
+      <h5>File in quarantine</h5>
+      <p>/quarantine/shipment_status/20260511/shipment_status_20260511_081102.json — diagnosis attached. Review in Step 4.</p>
+    </div>
+    <div class="outcome-card amber">
+      <h5>Team notified</h5>
+      <p>Slack alert fired to #data-ops in &lt; 3 seconds. James Morrow, Sarah Chen notified. Full diagnosis in the alert — no investigation needed.</p>
+    </div>
+  </div>
+
+  <div class="compare-2col" id="compare-2col">
+    <div class="c-side c-bad">
+      <h5>Without Velraq</h5>
+      <p>This file would have ingested into <span class="mono">shipment_status</span> table. <span class="mono">status_code</span> = NULL for 1,847 rows. Your logistics ops team would find out when the delivery ETA reports break.</p>
+    </div>
+    <div class="c-side c-good">
+      <h5>With Velraq</h5>
+      <p>File intercepted at 08:11:02. Warehouse clean. Team notified with exact diagnosis. Vendor contacted to resend corrected file.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     STEP 4 — ALERTS & RESOLUTION
+========================================================= -->
+<section class="step-section" id="section-4">
+  <div class="narration">
+    <div class="narration-text">
+      <div class="narration-l1">The quarantine event fires a Slack alert in under 3 seconds. Sarah Chen already knows — before she opened her laptop.</div>
+      <div class="narration-l2">The alert contains the exact diagnosis. No investigation needed. Your warehouse was never touched.</div>
+    </div>
+    <button class="btn btn-primary btn-small" onclick="nav(5)">Next: Audit Log →</button>
+  </div>
+
+  <div class="progress-chip">Step 4 of 6 — Alerts &amp; Resolution</div>
+  <h1 class="page-title">Quarantine Queue</h1>
+  <p class="page-sub">1 file awaiting resolution · Warehouse not affected</p>
+
+  <!-- Primary -->
+  <div class="quarantine-item primary" id="qi-primary">
+    <div class="qi-head">
+      <div>
+        <div class="qi-title">shipment_status_20260511_081102.json</div>
+        <div class="qi-meta">DHL Express · 1,847 rows · received 08:11:02</div>
+      </div>
+      <span class="badge badge-rust">2 VIOLATIONS</span>
+    </div>
+
+    <div class="violation-panel">
+      <div class="violation-row">
+        <span class="vh">FIELD MISSING — status_code</span>
+        Required field absent from payload. Contract: shipment_status_v3. All 1,847 rows affected.
+      </div>
+      <div class="violation-row">
+        <span class="vh">QUALITY RULE FAILED — null_rate(status_code)</span>
+        Observed: 100% null. Limit: 5%. Likely cause: vendor renamed field in upstream system.
+      </div>
+    </div>
+
+    <div class="qi-actions">
+      <button class="btn btn-small" onclick="downloadFile()">Download file</button>
+      <button class="btn btn-small" onclick="copyReport(this)">Copy violation report</button>
+      <button class="btn btn-small" onclick="document.getElementById('email-draft').classList.toggle('open')">Contact vendor</button>
+      <button class="btn btn-primary btn-small" onclick="markResolved()">Mark resolved</button>
+    </div>
+
+    <div class="email-draft" id="email-draft">
+      <div class="field-label">Email draft — to DHL Express integration team</div>
+<pre>To: integration@dhl.com
+From: data-ops@gfs.co.uk
+Subject: shipment_status feed — status_code field missing (file 20260511_081102)
+
+Hi DHL Integration team,
+
+We've intercepted today's shipment_status feed at our ingestion gateway. The
+required field status_code is absent from all 1,847 rows in the payload
+delivered at 08:11:02 UTC. This violates our shipment_status_v3 contract.
+
+We suspect this is related to a recent change on your side — possibly a
+rename to delivery_status_code. Could you confirm and re-send the file with
+the original schema, or let us know if the field has been intentionally
+renamed so we can update our contract on our side?
+
+The file is held in quarantine. It has not been ingested into our warehouse.
+
+Thanks,
+GFS Data Ops</pre>
+      <div class="email-actions">
+        <button class="btn btn-primary btn-small" onclick="copyEmail(this)">Copy email</button>
+        <button class="btn btn-small" onclick="document.getElementById('email-draft').classList.remove('open')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-heading">Slack alert — #data-ops</h2>
+  <div class="slack-mock">
+    <div class="slack-header">
+      <div class="slack-channel"><span class="hash">#</span> data-ops</div>
+      <div style="font-size:11px;color:var(--ink-3)" class="mono">4 members</div>
+    </div>
+
+    <div class="slack-msg">
+      <div class="slack-avatar velraq">V</div>
+      <div style="flex:1">
+        <div><span class="slack-name">Velraq</span><span class="slack-bot">APP</span><span class="slack-time">08:11 AM</span></div>
+        <div class="slack-body"><strong>Quarantine event</strong> — DHL Express · shipment_status</div>
+        <div class="slack-attach">
+          <div class="at-line"><span class="at-rust">File:</span> shipment_status_20260511_081102.json</div>
+          <div class="at-line"><span class="at-rust">Rows:</span> 1,847</div>
+          <div class="at-line"><span class="at-rust">Contract:</span> shipment_status_v3</div>
+          <div class="at-line"><span class="at-rust">Violation 1:</span> required field <span class="at-line" style="color:#fff">status_code</span> missing</div>
+          <div class="at-line"><span class="at-rust">Violation 2:</span> null_rate(status_code) = 100% (limit 5%)</div>
+          <div class="at-line"><span class="at-rust">Warehouse:</span> <span style="color:#166534">UNTOUCHED</span></div>
+          <div class="at-line"><span class="at-rust">File held at:</span> /quarantine/shipment_status/20260511/</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slack-msg">
+      <div class="slack-avatar sc">SC</div>
+      <div style="flex:1">
+        <div><span class="slack-name">Sarah Chen</span><span class="slack-time">08:13 AM</span></div>
+        <div class="slack-body">On it — I'll contact DHL and request a corrected file. Pipeline is fine, running on yesterday's data.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-heading">Older quarantine events</h2>
+
+  <div class="quarantine-item amber">
+    <div class="qi-head">
+      <div>
+        <div class="qi-title">route_manifest_20260510_143022.csv</div>
+        <div class="qi-meta">RouteIQ Ltd · 412 rows · received yesterday 14:30</div>
+      </div>
+      <span class="badge badge-amber">FORMAT WARNING</span>
+    </div>
+    <div style="font-size:12.5px;color:var(--ink-2);padding-top:6px">eta_iso8601 field arrived in DD/MM/YYYY format instead of ISO 8601. Held pending review.</div>
+  </div>
+
+  <div class="quarantine-item amber">
+    <div class="qi-head">
+      <div>
+        <div class="qi-title">route_manifest_20260508_083015.csv</div>
+        <div class="qi-meta">RouteIQ Ltd · 388 rows · received 08 May 08:30</div>
+      </div>
+      <span class="badge badge-amber">FORMAT WARNING</span>
+    </div>
+    <div style="font-size:12.5px;color:var(--ink-2);padding-top:6px">Same date-format violation.</div>
+    <div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:11px;color:var(--rust)">Same vendor · same violation · 3rd time this month → Vendor scorecard: 85/100</div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     STEP 5 — AUDIT LOG
+========================================================= -->
+<section class="step-section" id="section-5">
+  <div class="narration">
+    <div class="narration-text">
+      <div class="narration-l1">Every quarantine event, every check, every resolution is logged here. This record cannot be edited or deleted.</div>
+      <div class="narration-l2">This is the audit trail that proves your team responded correctly — before anyone asks.</div>
+    </div>
+    <button class="btn btn-primary btn-small" onclick="nav(6)">Next: Impact →</button>
+  </div>
+
+  <div class="progress-chip">Step 5 of 6 — Audit Log</div>
+  <h1 class="page-title">Audit Log</h1>
+  <p class="page-sub">247 events · Append-only · Cannot be edited or deleted</p>
+
+  <div class="verify-row">
+    <div class="chain-ok">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      Chain verified · SHA-256
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-small" onclick="exportCsv()">Export CSV</button>
+      <button class="btn btn-small" id="verify-btn" onclick="verifyChain()">Verify chain</button>
+    </div>
+  </div>
+
+  <table class="audit-table">
+    <thead>
+      <tr><th>Timestamp</th><th>Event</th><th>Feed</th><th>Detail</th><th>Actor</th><th>Hash</th></tr>
+    </thead>
+    <tbody>
+      <tr class="audit-row row-q" onclick="toggleAudit(0)">
+        <td>Today 08:11:02</td><td><span class="badge badge-rust">QUARANTINE</span></td><td>shipment_status</td>
+        <td>2 violations · 1,847 rows</td><td>velraq/gateway</td><td>abc1...</td>
+      </tr>
+      <tr class="audit-detail-row" data-audit="0"><td colspan="6">
+        <div class="audit-detail">
+          <div><span class="dk">event_id:</span> <span class="dv">evt_4c8a91e2b6f3d7</span></div>
+          <div><span class="dk">prev_hash:</span> <span class="dv">9f3a82bc41d56e0712...</span></div>
+          <div><span class="dk">event_hash:</span> <span class="dv">abc1d4f5e6789012ab34cd56ef7890fa12bc34de56fa78901234567890abcdef</span></div>
+        </div>
+      </td></tr>
+
+      <tr class="audit-row row-q" onclick="toggleAudit(1)">
+        <td>Today 08:11:05</td><td><span class="badge badge-rust">ALERT_SENT</span></td><td>shipment_status</td>
+        <td>#data-ops notified</td><td>velraq/alerts</td><td>def2...</td>
+      </tr>
+      <tr class="audit-detail-row" data-audit="1"><td colspan="6">
+        <div class="audit-detail">
+          <div><span class="dk">prev_hash:</span> <span class="dv">abc1d4f5e6789012ab34cd56...</span></div>
+          <div><span class="dk">event_hash:</span> <span class="dv">def2e5f6a78901234bc56de78f901a3bc45de67fa89...</span></div>
+        </div>
+      </td></tr>
+
+      <tr class="audit-row row-w" onclick="toggleAudit(2)">
+        <td>Yesterday 14:30</td><td><span class="badge badge-amber">FORMAT_WARN</span></td><td>route_manifest</td>
+        <td>DD/MM/YYYY — 412 rows</td><td>velraq/gateway</td><td>ghi3...</td>
+      </tr>
+      <tr class="audit-detail-row" data-audit="2"><td colspan="6">
+        <div class="audit-detail">
+          <div><span class="dk">prev_hash:</span> <span class="dv">def2e5f6a78901234bc56de78...</span></div>
+          <div><span class="dk">event_hash:</span> <span class="dv">ghi3f6a789012345cd67ef89a0b1c2d3e4...</span></div>
+        </div>
+      </td></tr>
+
+      <tr class="audit-row row-q" onclick="toggleAudit(3)">
+        <td>08 May 09:02</td><td><span class="badge badge-rust">QUARANTINE</span></td><td>route_manifest</td>
+        <td>format violation</td><td>velraq/gateway</td><td>jkl4...</td>
+      </tr>
+      <tr class="audit-detail-row" data-audit="3"><td colspan="6">
+        <div class="audit-detail">
+          <div><span class="dk">prev_hash:</span> <span class="dv">ghi3f6a789012345cd67ef89...</span></div>
+          <div><span class="dk">event_hash:</span> <span class="dv">jkl4a78901234567de89fa0b1...</span></div>
+        </div>
+      </td></tr>
+
+      <tr class="audit-row row-q" onclick="toggleAudit(4)">
+        <td>08 May 09:05</td><td><span class="badge badge-rust">ALERT_SENT</span></td><td>route_manifest</td>
+        <td>#data-ops notified</td><td>velraq/alerts</td><td>mno5...</td>
+      </tr>
+      <tr class="audit-detail-row" data-audit="4"><td colspan="6">
+        <div class="audit-detail">
+          <div><span class="dk">prev_hash:</span> <span class="dv">jkl4a78901234567de89fa0b1...</span></div>
+          <div><span class="dk">event_hash:</span> <span class="dv">mno5b8901234567ef9a0b1c2d...</span></div>
+        </div>
+      </td></tr>
+
+      <tr class="audit-row" onclick="toggleAudit(5)">
+        <td>01 May 08:02</td><td><span class="badge badge-green">PASS</span></td><td>carrier_rates</td>
+        <td>1,204 rows · clean</td><td>velraq/gateway</td><td>pqr6...</td>
+      </tr>
+      <tr class="audit-detail-row" data-audit="5"><td colspan="6">
+        <div class="audit-detail">
+          <div><span class="dk">prev_hash:</span> <span class="dv">mno5b8901234567ef9a0b1c2d...</span></div>
+          <div><span class="dk">event_hash:</span> <span class="dv">pqr6c901234567fa0b1c2d3e4...</span></div>
+        </div>
+      </td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-heading">Hash chain</h2>
+  <div class="hash-visual">
+    <div class="hash-block">
+      <div><span class="hk">event_id:</span> <span class="hv">evt_4c8a91e2b6f3d6</span></div>
+      <div><span class="hk">prev_hash:</span> <span class="hv">8e2971ab3...</span></div>
+      <div><span class="hk">event_hash:</span> <span class="hv">9f3a82bc41d56e07127f...</span></div>
+    </div>
+    <div class="hash-arrow">→</div>
+    <div class="hash-block">
+      <div><span class="hk">event_id:</span> <span class="hv">evt_4c8a91e2b6f3d7</span></div>
+      <div><span class="hk">prev_hash:</span> <span class="hv">9f3a82bc41d56e07127f...</span></div>
+      <div><span class="hk">event_hash:</span> <span class="hv">abc1d4f5e6789012ab34...</span></div>
+    </div>
+  </div>
+
+  <div class="verified-banner" id="verified-banner">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    Chain integrity verified — every event links to the previous. This log cannot be tampered with.
+  </div>
+</section>
+
+
+<!-- =========================================================
+     STEP 6 — IMPACT
+========================================================= -->
+<section class="step-section" id="section-6">
+  <div class="narration">
+    <div class="narration-text">
+      <div class="narration-l1">This is what Velraq prevented for GFS in the last 30 days.</div>
+      <div class="narration-l2">Every number here is based on your feeds and published industry data. Hover any stat to see the source.</div>
+    </div>
+    <button class="btn btn-primary btn-small" onclick="openContact()">Start the conversation →</button>
+  </div>
+
+  <div class="progress-chip">Step 6 of 6 — Impact &amp; ROI</div>
+  <h1 class="page-title">What Velraq prevented for GFS</h1>
+  <p class="page-sub">Last 30 days · Based on your feeds and published industry data</p>
+
+  <div class="tabs">
+    <div class="tab active" data-impact="1" onclick="setImpactTab(1)">ROI Summary</div>
+    <div class="tab" data-impact="2" onclick="setImpactTab(2)">Vendor Scorecards</div>
+  </div>
+
+  <div id="impact-1">
+    <div class="stat-grid">
+      <div class="stat-card" title="3 quarantine events caught this month">
+        <div class="stat-num rust">3</div>
+        <div class="stat-label">Quarantine events this month</div>
+        <div class="stat-sub">1 DHL · 2 RouteIQ</div>
+      </div>
+      <div class="stat-card" title="Wakefield Research 2023 — pipeline maintenance time">
+        <div class="stat-num green">244</div>
+        <div class="stat-label">Hours of engineering time not spent debugging</div>
+        <div class="stat-sub">Based on Wakefield avg: 4–6 hrs per incident × 3 incidents × number of engineers involved (estimated)</div>
+      </div>
+      <div class="stat-card" title="Wakefield Research / Monte Carlo 2023">
+        <div class="stat-num rust">~60 hrs</div>
+        <div class="stat-label">Total engineering hours saved this month</div>
+        <div class="stat-sub">3 incidents × 20hrs average trace time (Wakefield Research / Monte Carlo 2023)</div>
+      </div>
+      <div class="stat-card" title="UK data engineer rate (industry benchmark)">
+        <div class="stat-num rust">~£3,300</div>
+        <div class="stat-label">Estimated cost of those incidents avoided</div>
+        <div class="stat-sub">60 hrs × £55/hr average UK data engineer rate (industry benchmark)</div>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <h4>How we calculated this</h4>
+      <div>3 quarantine events this month</div>
+      <div>× 20 hrs average trace time per incident (Wakefield Research 2023 — data engineers spend 44% of time on pipeline maintenance)</div>
+      <div>× £55/hr UK data engineer day rate (industry benchmark)</div>
+      <div style="color:#86efac;margin-top:4px">= £3,300 estimated cost of incidents Velraq intercepted</div>
+      <div class="src">Sources: Wakefield Research 2023 · Monte Carlo State of Data Quality 2026 · UK IT salary benchmarks</div>
+    </div>
+
+    <h2 class="section-heading">Incident breakdown</h2>
+    <table class="impact-table">
+      <thead>
+        <tr><th>Date</th><th>Feed</th><th>Vendor</th><th>Rows affected</th><th>Issue</th><th>Outcome</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Today 08:11</td><td class="mono">shipment_status</td><td>DHL Express</td><td>1,847</td><td>status_code missing</td><td><span class="badge badge-rust">QUARANTINED</span></td></tr>
+        <tr><td>Yesterday 14:30</td><td class="mono">route_manifest</td><td>RouteIQ Ltd</td><td>412</td><td>date format wrong</td><td><span class="badge badge-rust">QUARANTINED</span></td></tr>
+        <tr><td>08 May 08:30</td><td class="mono">route_manifest</td><td>RouteIQ Ltd</td><td>388</td><td>date format wrong</td><td><span class="badge badge-rust">QUARANTINED</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="impact-2" style="display:none">
+    <h2 class="section-heading" style="margin-top:14px">Vendor reliability — 30-day scorecard</h2>
+
+    <div class="vs-card">
+      <div class="vs-head">
+        <div class="ring">
+          <svg><circle cx="30" cy="30" r="26" fill="none" stroke="#e7e1d3" stroke-width="5"/><circle cx="30" cy="30" r="26" fill="none" stroke="#16a34a" stroke-width="5" stroke-dasharray="163.36" stroke-dashoffset="3.3" stroke-linecap="round"/></svg>
+          <div class="ring-num">98</div>
+        </div>
+        <div class="vs-meta">
+          <h4>Freightline UK</h4>
+          <p>carrier_rates · SFTP · daily</p>
+        </div>
+        <span class="badge badge-green">Reliable</span>
+      </div>
+      <div class="vs-stats">
+        <div class="vs-stat"><div class="vs-stat-num">31</div><div class="vs-stat-label">Files received</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">31</div><div class="vs-stat-label">Files clean</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">0</div><div class="vs-stat-label">Quarantines</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">0</div><div class="vs-stat-label">Warnings</div></div>
+      </div>
+    </div>
+
+    <div class="vs-card">
+      <div class="vs-head">
+        <div class="ring">
+          <svg><circle cx="30" cy="30" r="26" fill="none" stroke="#e7e1d3" stroke-width="5"/><circle cx="30" cy="30" r="26" fill="none" stroke="#d97706" stroke-width="5" stroke-dasharray="163.36" stroke-dashoffset="24.5" stroke-linecap="round"/></svg>
+          <div class="ring-num">85</div>
+        </div>
+        <div class="vs-meta">
+          <h4>RouteIQ Ltd</h4>
+          <p>route_manifest · SFTP · twice daily</p>
+        </div>
+        <span class="badge badge-amber">Monitor</span>
+      </div>
+      <div class="vs-stats">
+        <div class="vs-stat"><div class="vs-stat-num">62</div><div class="vs-stat-label">Files received</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">59</div><div class="vs-stat-label">Files clean</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">2</div><div class="vs-stat-label">Quarantines</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">3</div><div class="vs-stat-label">Warnings</div></div>
+      </div>
+      <div class="vs-note amber">Same format violation on 3 consecutive files. Vendor contacted.</div>
+    </div>
+
+    <div class="vs-card">
+      <div class="vs-head">
+        <div class="ring">
+          <svg><circle cx="30" cy="30" r="26" fill="none" stroke="#e7e1d3" stroke-width="5"/><circle cx="30" cy="30" r="26" fill="none" stroke="#c0392b" stroke-width="5" stroke-dasharray="163.36" stroke-dashoffset="45.7" stroke-linecap="round"/></svg>
+          <div class="ring-num">72</div>
+        </div>
+        <div class="vs-meta">
+          <h4>DHL Express</h4>
+          <p>shipment_status · API · realtime</p>
+        </div>
+        <span class="badge badge-rust">Needs attention</span>
+      </div>
+      <div class="vs-stats">
+        <div class="vs-stat"><div class="vs-stat-num">29</div><div class="vs-stat-label">Files received</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">28</div><div class="vs-stat-label">Files clean</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">1</div><div class="vs-stat-label">Quarantines</div></div>
+        <div class="vs-stat"><div class="vs-stat-num">0</div><div class="vs-stat-label">Warnings</div></div>
+      </div>
+      <div class="vs-note rust">status_code absent from today's feed. 3rd data quality issue in 60 days. Scorecard trending downward.</div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>What does a vendor data incident actually cost your team?</h2>
+    <div class="cta-sub">We will calculate it together using your numbers — your feeds, your engineer rate, your incident frequency. Not a sales call. A 20-minute conversation about how your vendor data actually flows.</div>
+    <div class="cta-tiny">No pricing discussion on the first call · No commitment required · 60-day free pilot available after</div>
+    <button class="btn btn-primary btn-large" onclick="openContact()">Start the conversation</button>
+    <div class="cta-foot">adwait_kumbhare@velraq.com · velraq.com</div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  var state = {
+    currentStep: 0,
+    stepsCompleted: [],
+    simulationRun: false,
+    resolvedItems: [],
+    activeMode: 'alert',
+    activeContractTab: 'shipment_status_v3',
+    activeImpactTab: 1
+  };
+
+  // Checkmark SVG for completed step dots
+  var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="width:11px;height:11px"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function nav(step){
+    // Mark previous step done
+    if (state.currentStep !== step && !state.stepsCompleted.includes(state.currentStep)){
+      state.stepsCompleted.push(state.currentStep);
+    }
+    state.currentStep = step;
+
+    document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
+    var sec = document.getElementById('section-' + step);
+    if (sec) sec.classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(function(n){
+      n.classList.remove('active');
+      var s = parseInt(n.getAttribute('data-step'),10);
+      var dot = n.querySelector('.step-dot');
+      if (s === step){
+        n.classList.add('active');
+        n.classList.remove('done');
+        dot.innerHTML = String(s);
+      } else if (state.stepsCompleted.includes(s)){
+        n.classList.add('done');
+        dot.innerHTML = checkSvg;
+      } else {
+        n.classList.remove('done');
+        dot.innerHTML = String(s);
+      }
+    });
+
+    var main = document.getElementById('main-content');
+    if (main) main.scrollTop = 0;
+  }
+
+  function navStep4(){
+    if (!state.simulationRun){
+      toast('Run the simulation in Step 3 first to unlock Alerts.');
+      nav(3);
+      return;
+    }
+    nav(4);
+  }
+
+  function goFeed(name){
+    nav(1);
+    setTimeout(function(){
+      document.querySelectorAll('.feed-row').forEach(function(r){
+        r.classList.remove('highlighted');
+        if (r.getAttribute('data-feed') === name){
+          r.classList.add('highlighted');
+          // Open detail row
+          document.querySelectorAll('.feed-detail-row').forEach(function(d){ d.classList.remove('open'); });
+          var det = document.querySelector('[data-feed-detail="'+name+'"]');
+          if (det) det.classList.add('open');
+        }
+      });
+    }, 50);
+  }
+
+  function toggleFeed(name){
+    var det = document.querySelector('[data-feed-detail="'+name+'"]');
+    if (!det) return;
+    var wasOpen = det.classList.contains('open');
+    document.querySelectorAll('.feed-detail-row').forEach(function(d){ d.classList.remove('open'); });
+    if (!wasOpen) det.classList.add('open');
+  }
+
+  function setMode(btn, mode){
+    var row = btn.parentElement;
+    row.querySelectorAll('.mode-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+  function toggleSwitch(el){ el.classList.toggle('on'); }
+
+  function addFeed(){
+    document.getElementById('add-form').classList.remove('open');
+    toast('Feed saved — assign a contract to activate enforcement.');
+  }
+  function saveRecipients(){ toast('Alert recipients saved for this feed.'); }
+
+  function setContractTab(name){
+    state.activeContractTab = name;
+    document.querySelectorAll('#section-2 .tab').forEach(function(t){
+      t.classList.toggle('active', t.getAttribute('data-tab') === name);
+    });
+    document.querySelectorAll('.contract-tab').forEach(function(t){ t.classList.remove('active'); });
+    var ct = document.getElementById('contract-' + name);
+    if (ct) ct.classList.add('active');
+  }
+
+  function copyYaml(btn){
+    var pre = btn.parentElement.querySelector('pre');
+    if (!pre) return;
+    var text = pre.innerText;
+    copyToClipboard(text);
+    flashBtn(btn, 'Copied');
+  }
+
+  // ===== Simulation =====
+  var simLines = null;
+  function buildSimLines(){
+    var t = new Date().toLocaleTimeString('en-GB');
+    var ts = '<span class="ts">[' + t + ']</span> ';
+    return [
+      {html: ts + 'VELRAQ GATEWAY — incoming file received'},
+      {html: ts + 'vendor: DHL Express | feed: shipment_status | rows: 1,847'},
+      {html: ts + 'Loading contract: shipment_status_v3 ...'},
+      {html: ts + 'Checking required fields...'},
+      {html: ts + '  <span class="pass">✓ shipment_id ............... PASS</span>'},
+      {html: ts + '  <span class="pass">✓ carrier_code .............. PASS</span>'},
+      {html: ts + '  <span class="fail">✗ status_code ............... MISSING — field absent from payload</span>', pause:300},
+      {html: ts + '  <span class="pass">✓ destination_postcode ...... PASS</span>'},
+      {html: ts + '  <span class="pass">✓ estimated_delivery ........ PASS</span>'},
+      {html: ts + 'Running quality rules...'},
+      {html: ts + '  <span class="pass">✓ row_count ≥ 500 ........... PASS — 1,847 rows received</span>'},
+      {html: ts + '  <span class="fail">✗ null_rate(status_code) .... FAIL — 100% null (limit: 5%)</span>', pause:300},
+      {html: ts + '  <span class="pass">✓ duplicate_rate(shipment_id) PASS — 0.0%</span>'},
+      {html: ts + '────────────────────────────────────────────'},
+      {html: ts + '<span class="verdict">VERDICT: QUARANTINE — 2 violations found</span>', verdict:true},
+      {html: ts + '<span class="warehouse">WAREHOUSE: UNTOUCHED — 0 rows ingested</span>'},
+      {html: ts + '<span class="alertl">ALERT: Slack fired to #data-ops — 2.8s</span>'}
+    ];
+  }
+
+  function runSimulation(){
+    var btn = document.getElementById('sim-btn');
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    var log = document.getElementById('sim-log');
+    log.innerHTML = '';
+    log.classList.add('show');
+
+    // Reset post-sim panels for replay
+    document.getElementById('relief-card').classList.remove('show');
+    document.getElementById('outcomes').classList.remove('show');
+    document.getElementById('compare-2col').classList.remove('show');
+    document.getElementById('status-banner').classList.remove('fail');
+    document.getElementById('status-banner').classList.add('warn');
+
+    var lines = buildSimLines();
+    var i = 0;
+    function next(){
+      if (i >= lines.length){
+        // done
+        btn.disabled = false;
+        btn.innerText = 'Replay ↺';
+        document.getElementById('relief-card').classList.add('show');
+        document.getElementById('outcomes').classList.add('show');
+        document.getElementById('compare-2col').classList.add('show');
+        state.simulationRun = true;
+        var nx = document.getElementById('step3-next');
+        nx.disabled = false;
+        nx.innerText = 'Next: See the alert →';
+        return;
+      }
+      var line = lines[i];
+      var div = document.createElement('div');
+      div.className = 'sim-line';
+      div.innerHTML = line.html;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+      setTimeout(function(){ div.classList.add('in'); }, 10);
+      if (line.verdict){
+        var banner = document.getElementById('status-banner');
+        banner.classList.remove('warn');
+        banner.classList.add('fail');
+      }
+      var delay = 120 + (line.pause || 0);
+      i++;
+      setTimeout(next, delay);
+    }
+    setTimeout(next, 100);
+  }
+
+  // ===== Step 4 =====
+  function downloadFile(){
+    var content = JSON.stringify({
+      file: 'shipment_status_20260511_081102.json',
+      vendor: 'DHL Express',
+      received_at: '2026-05-11T08:11:02Z',
+      rows: 1847,
+      contract: 'shipment_status_v3',
+      violations: [
+        {type:'field_missing', field:'status_code'},
+        {type:'quality_rule_failed', rule:'null_rate(status_code)', observed:1.0, limit:0.05}
+      ]
+    }, null, 2);
+    var blob = new Blob([content], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'shipment_status_20260511_081102.json';
+    a.click();
+    toast('File downloaded.');
+  }
+
+  function copyReport(btn){
+    var text = 'VIOLATION REPORT — shipment_status_20260511_081102.json\n' +
+      'Vendor: DHL Express | Rows: 1,847\n' +
+      'Contract: shipment_status_v3\n\n' +
+      '1. FIELD MISSING — status_code\n   Required field absent from payload. All 1,847 rows affected.\n\n' +
+      '2. QUALITY RULE FAILED — null_rate(status_code)\n   Observed: 100% null. Limit: 5%.\n   Likely cause: vendor renamed field upstream.';
+    copyToClipboard(text);
+    flashBtn(btn, 'Copied');
+  }
+
+  function copyEmail(btn){
+    var pre = document.querySelector('#email-draft pre');
+    if (!pre) return;
+    copyToClipboard(pre.innerText);
+    flashBtn(btn, 'Copied');
+  }
+
+  function markResolved(){
+    var item = document.getElementById('qi-primary');
+    item.classList.add('resolved');
+    var head = item.querySelector('.qi-head');
+    if (head && !head.querySelector('.badge-resolved')){
+      var b = document.createElement('span');
+      b.className = 'badge badge-green badge-resolved';
+      b.innerText = 'RESOLVED';
+      head.appendChild(b);
+    }
+    document.getElementById('alert-badge').style.display = 'none';
+    toast('Marked as resolved.');
+  }
+
+  // ===== Step 5 =====
+  function toggleAudit(i){
+    var det = document.querySelector('[data-audit="'+i+'"]');
+    if (!det) return;
+    det.classList.toggle('open');
+  }
+
+  function exportCsv(){
+    var rows = [
+      ['timestamp','event','feed','detail','actor','hash'],
+      ['2026-05-11 08:11:02','QUARANTINE','shipment_status','2 violations · 1847 rows','velraq/gateway','abc1d4f5e6789012'],
+      ['2026-05-11 08:11:05','ALERT_SENT','shipment_status','#data-ops notified','velraq/alerts','def2e5f6a7890123'],
+      ['2026-05-10 14:30:00','FORMAT_WARN','route_manifest','DD/MM/YYYY — 412 rows','velraq/gateway','ghi3f6a789012345'],
+      ['2026-05-08 09:02:00','QUARANTINE','route_manifest','format violation','velraq/gateway','jkl4a78901234567'],
+      ['2026-05-08 09:05:00','ALERT_SENT','route_manifest','#data-ops notified','velraq/alerts','mno5b8901234567f'],
+      ['2026-05-01 08:02:00','PASS','carrier_rates','1204 rows · clean','velraq/gateway','pqr6c901234567fa']
+    ];
+    var csv = rows.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+    var blob = new Blob([csv], {type:'text/csv'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'velraq-audit-gfs-export.csv';
+    a.click();
+    toast('Audit log exported.');
+  }
+
+  function verifyChain(){
+    var btn = document.getElementById('verify-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Verifying...';
+    setTimeout(function(){
+      btn.innerHTML = 'Verify chain';
+      btn.disabled = false;
+      var banner = document.getElementById('verified-banner');
+      banner.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Chain verified · 247 events · SHA-256 · No tampering detected';
+      banner.style.transition = 'background 0.4s';
+      banner.style.background = '#dcfce7';
+      setTimeout(function(){ banner.style.background = ''; }, 800);
+    }, 1000);
+  }
+
+  // ===== Step 6 =====
+  function setImpactTab(n){
+    state.activeImpactTab = n;
+    document.querySelectorAll('[data-impact]').forEach(function(t){
+      t.classList.toggle('active', parseInt(t.getAttribute('data-impact'),10) === n);
+    });
+    document.getElementById('impact-1').style.display = (n===1)?'':'none';
+    document.getElementById('impact-2').style.display = (n===2)?'':'none';
+  }
+
+  function openContact(){
+    window.location.href = 'mailto:adwait_kumbhare@velraq.com?subject=Velraq%20%E2%80%94%20GFS%20vendor%20feed%20conversation&body=Hi%20Adwait%2C%0A%0AI%27ve%20gone%20through%20the%20Velraq%20demo%20and%20want%20to%20understand%20how%20this%20would%20work%20for%20our%20vendor%20feeds.%0A%0AOur%20setup%3A%0A-%20Company%3A%20%5Byour%20company%5D%0A-%20Feeds%3A%20%5Bnumber%20of%20vendor%20feeds%5D%0A-%20Stack%3A%20%5Byour%20data%20stack%5D%0A%0ALooking%20forward%20to%20speaking.';
+  }
+
+  // ===== Utilities =====
+  var toastTimer = null;
+  function toast(msg){
+    var t = document.getElementById('toast');
+    t.innerText = msg;
+    t.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2500);
+  }
+
+  function copyToClipboard(text){
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+    }
+  }
+
+  function flashBtn(btn, msg){
+    var original = btn.innerText;
+    btn.innerText = msg;
+    setTimeout(function(){ btn.innerText = original; }, 1200);
+  }
+
+  // Init
+  nav(0);
+</script>
+
+</body>
+</html>
